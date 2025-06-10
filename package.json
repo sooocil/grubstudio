@@ -4,6 +4,7 @@
   "description": "Edit,preview and share Grub-Themes.",
   "main": "no",
   "scripts": {
+    "prepare": "husky install",
     "dev:web": "pnpm --filter web dev",
     "dev:api": "pnpm --filter api dev",
     "dev": "concurrently \"pnpm dev:web\" \"pnpm dev:api\""
@@ -23,9 +24,12 @@
     "express": "^5.1.0"
   },
   "devDependencies": {
+    "@commitlint/config-conventional": "^19.8.1",
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.0",
+    "commitlint": "^19.8.1",
     "concurrently": "^9.1.2",
+    "husky": "^9.1.7",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3"
   }
