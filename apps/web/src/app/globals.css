@@ -1,74 +1,60 @@
-/* Import Tailwind CSS */
 @import "tailwindcss";
 
-/* Define custom CSS variables for light and dark themes */
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 24 95% 58%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 24 95% 58%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 24 95% 58%;
-    --radius: 0.75rem;
-
-    /* Sidebar variables */
-    --sidebar: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 24 95% 58%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 24 95% 58%;
-  }
-
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 24 95% 58%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 24 95% 58%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 24 95% 58%;
-
-    /* Sidebar variables */
-    --sidebar: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 24 95% 58%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 24 95% 58%;
-  }
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 24 95% 58%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 24 95% 58%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 24 95% 58%;
+  --radius: 0.75rem;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
 }
-/* Global styles */
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 24 95% 58%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 24 95% 58%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 24 95% 58%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+}
+
 * {
   border-color: hsl(var(--border));
 }
@@ -76,25 +62,69 @@
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
+  font-feature-settings: "rlig" 1, "calt" 1;
 }
 
-pre, code {
-  font-family: 'JetBrains Mono', monospace;
+/* Force primary color to be visible */
+.text-primary {
+  color: #ff9248 !important;
 }
 
-/* Custom utilities */
+.bg-primary {
+  background-color: #ff9248 !important;
+}
+
+.border-primary {
+  border-color: #ff9248 !important;
+}
+
+.hover\:bg-primary\/90:hover {
+  background-color: rgba(255, 146, 72, 0.9) !important;
+}
+
+.bg-primary\/10 {
+  background-color: rgba(255, 146, 72, 0.1) !important;
+}
+
+.bg-primary\/20 {
+  background-color: rgba(255, 146, 72, 0.2) !important;
+}
+
+.border-primary\/20 {
+  border-color: rgba(255, 146, 72, 0.2) !important;
+}
+
+.border-primary\/40 {
+  border-color: rgba(255, 146, 72, 0.4) !important;
+}
+
+.hover\:bg-primary\/5:hover {
+  background-color: rgba(255, 146, 72, 0.05) !important;
+}
+
+.hover\:bg-primary\/30:hover {
+  background-color: rgba(255, 146, 72, 0.3) !important;
+}
+
+/* Ensure fill colors work */
+.fill-primary {
+  fill: #ff9248 !important;
+}
+
+/* Custom gradient backgrounds */
 .gradient-bg {
-  background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(240 3.7% 8%) 100%);
+  background: linear-gradient(135deg, hsl(var(--background)) 0%, #1a1a1a 100%);
 }
 
 .code-glow {
-  box-shadow: 0 0 20px rgba(255, 146, 72, 0.1);
+  box-shadow: 0 0 20px hsl(var(--primary) / 0.1);
 }
 
 .preview-glow {
-  box-shadow: 0 0 30px rgba(255, 146, 72, 0.15);
+  box-shadow: 0 0 30px hsl(var(--primary) / 0.15);
 }
 
+/* Simple text animation */
 .text-animate-container {
   position: relative;
   height: 40px;
@@ -122,26 +152,31 @@ pre, code {
 }
 
 @keyframes textFade {
-  0%, 20% {
+  0%,
+  20% {
     opacity: 0;
     transform: translateY(10px);
   }
-  25%, 45% {
+  25%,
+  45% {
     opacity: 1;
     transform: translateY(0);
   }
-  50%, 100% {
+  50%,
+  100% {
     opacity: 0;
     transform: translateY(-10px);
   }
 }
 
+/* Floating Animation */
 .float-animation {
   animation: float 3s ease-in-out infinite;
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -149,15 +184,86 @@ pre, code {
   }
 }
 
+/* Pulse Animation */
 .pulse-glow {
   animation: pulseGlow 2s ease-in-out infinite alternate;
 }
 
 @keyframes pulseGlow {
   from {
-    box-shadow: 0 0 20px rgba(255, 146, 72, 0.1);
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.1);
   }
   to {
-    box-shadow: 0 0 40px rgba(255, 146, 72, 0.3);
+    box-shadow: 0 0 40px hsl(var(--primary) / 0.3);
   }
+}
+
+/* Slide in animations */
+.slide-in-left {
+  animation: slideInLeft 1s ease-out;
+}
+
+.slide-in-right {
+  animation: slideInRight 1s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Stagger animation delays */
+.animate-delay-100 {
+  animation-delay: 0.1s;
+}
+.animate-delay-200 {
+  animation-delay: 0.2s;
+}
+.animate-delay-300 {
+  animation-delay: 0.3s;
+}
+.animate-delay-400 {
+  animation-delay: 0.4s;
+}
+.animate-delay-500 {
+  animation-delay: 0.5s;
+}
+
+/* Glass morphism effects */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Improved hover effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px hsl(var(--primary) / 0.15);
 }
