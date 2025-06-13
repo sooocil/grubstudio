@@ -15,6 +15,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 
 // Fixed JSON strings to ensure valid syntax and consistent rendering
 export const grubStudioThemeString = `{
@@ -41,6 +42,13 @@ export default function LandingPage() {
   const dummyCode = grubStudioThemeString;
   const seconDummyCode = secondDummyCode;
 
+  const handleToast = () => {
+    toast.success("Testing Toasts.",{
+      description: "This is a test toast notification.",
+      icon: <Zap className="h-4 w-4" />,
+    })
+  };
+
   return (
     <div className="flex min-h-screen flex-col gradient-bg select-none">
       {/* Floating Navigation */}
@@ -50,6 +58,16 @@ export default function LandingPage() {
             GrubStudio
           </Link>
           <div className="hidden md:flex items-center gap-4 text-sm">
+            <Button
+              onClick={() => {
+                handleToast();
+              }}
+              variant="default"
+              className="hover:cursor-pointer"
+              size="sm"
+            >
+              Show Toast
+            </Button>
             <Link
               href="/marketplace"
               className="hover:text-primary transition-colors"
