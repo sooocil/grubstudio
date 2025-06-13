@@ -1,8 +1,14 @@
-# 🧰 GrubStudio
+<h1 align = center>
+🧰 GrubStudio
+  
+</h1>
 
-> A modern GRUB theme editor + previewer with live rendering and a public theme marketplace — all in your browser.
+<p align = center>
+   A modern GRUB theme editor + previewer with live rendering and a public theme marketplace — all in your browser.
 
-`![Hero Screenshot Placeholder](./assets/hero-preview.png)`
+</p>
+
+![Hero Screenshot Placeholder](./apps/web/public/grubStudio.png)
 
 ---
 
