@@ -19,12 +19,12 @@ export default function MonacoEditor({ file }: Props) {
 
   return (
     <Editor
-      className="w-[500px] h-[500px] bg-gray-900 text-white"
-      defaultLanguage="plaintext"
+      className=" w-[500px] h-full bg-gray-900 text-white"
+      language={file.name.endsWith(".js") ? "HTML" : "plaintext"}
       value={value}
       onChange={(val) => setValue(val ?? "")}
       theme="vs-dark"
-      options={{ minimap: { enabled: false } }}
+      options={{ minimap: { enabled: false }, automaticLayout: true }}
     />
   );
 }

@@ -54,7 +54,7 @@ export const FileNode: TreeDataItem[] = [
   },
   {
     id: "6",
-    name: "them.txt",
+    name: "theme.js",
     draggable: true,
     icon: FileText,
   },
