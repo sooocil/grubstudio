@@ -2,24 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  ChevronDown,
-  Download,
-  Eye,
-  File,
-  FileImage,
-  Folder,
-  FolderOpen,
-  Github,
-  Save,
-  Upload,
-  Play,
-  Settings,
-  Palette,
-  Code2,
-  Terminal,
-  Zap,
-} from "lucide-react";
+import { Download, Github, Save, Upload, Play, Code2, Zap } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";

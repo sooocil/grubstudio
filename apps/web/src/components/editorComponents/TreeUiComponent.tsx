@@ -1,46 +1,88 @@
 "use client";
 
-import { Tree } from "react-arborist";
-import { dummyFileTree, FileNode } from "./files"; // adjust path as needed
+import { TreeView } from "@/components/tree-view";
+import { FileNode as rawData, TreeDataItem } from "./files";
+import { File as FileIcon, Folder, FolderOpen, Plus, Trash2 } from "lucide-react";
+import { useMemo, useState } from "react";
 
 type Props = {
-  onSelect?: (file: FileNode) => void;
+  onSelect?: (file: TreeDataItem) => void;
 };
 
-export default function TreeUiComponent({ onSelect }: Props) {
-  return (
-    <div className="w-64  overflow-auto border-r border-gray-700 bg-gray-900 text-white">
-      <Tree
-        data={dummyFileTree}
-        childrenAccessor="children"
-        openByDefault
-        onSelect={(selectedNodes) => {
-          // selectedNodes is an array of NodeApi<FileNode>
-          if (selectedNodes.length === 0) return; // nothing selected
-          const node = selectedNodes[0]; // single selection mode assumed
-          const file = node.data;
-          if (!file.children) {
-            onSelect?.(file);
-          }
-        }}
-        rowHeight={32}
-      >
-        {({ node, style, dragHandle }) => {
-          const file = node.data as FileNode;
-          const isFolder = !!file.children;
+const ActionButton = ({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) => (
+  <span 
+    className="p-2 text-white hover:cursor-pointer hover:bg-zinc-400/20 hover:rounded"
+    onClick={(e) => {
+      e.stopPropagation();
+      onClick?.();
+      console.log("Action clicked");
+    }}
+  >
+    {children}
+  </span>
+);
 
-          return (
-            <div
-              ref={dragHandle}
-              style={style}
-              className="flex items-center px-2 cursor-pointer hover:bg-gray-700"
-            >
-              <span className="mr-2">{isFolder ? "📁" : "📄"}</span>
-              <span>{file.name}</span>
-            </div>
-          );
-        }}
-      </Tree>
+const NodeIcon = ({ className }: { className?: string }) => (
+  <Folder className={className} />
+);
+
+const LeafIcon = ({ className }: { className?: string }) => (
+  <FileIcon className={className} />
+);
+
+export default function TreeUiComponent({ onSelect }: Props) {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const treeData = useMemo(() => {
+    function processNodes(data: TreeDataItem[]): TreeDataItem[] {
+      return data.map((item) => {
+        const newItem: TreeDataItem = { ...item };
+
+        // Set folder icons
+        if (newItem.children) {
+          newItem.openIcon = newItem.openIcon ?? FolderOpen;
+          newItem.icon = newItem.icon ?? Folder;
+          newItem.children = processNodes(newItem.children);
+        }
+
+        // Always set actions, but control visibility with CSS
+        newItem.actions = (
+          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            {newItem.children && (
+              <ActionButton>
+                <Plus className="h-4 w-4" />
+              </ActionButton>
+            )}
+            <ActionButton>
+              <Trash2 className="h-4 w-4" />
+            </ActionButton>
+          </div>
+        );
+
+        // Ensure onClick properly handles the item
+        const originalOnClick = newItem.onClick;
+        newItem.onClick = (e?: React.MouseEvent) => {
+          e?.stopPropagation();
+          setSelectedId(newItem.id);
+          onSelect?.(newItem);
+          originalOnClick?.();
+        };
+
+        return newItem;
+      });
+    }
+
+    return processNodes(rawData);
+  }, [selectedId, onSelect]);
+
+  return (
+    <div className="w-max-20 overflow-auto border-r border-gray-700 bg-gray-900 text-white">
+      <TreeView
+        data={treeData}
+        defaultNodeIcon={NodeIcon}
+        defaultLeafIcon={LeafIcon}
+        className="[&>div]:group" // This ensures each tree item has the group class
+      />
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import TreeUiComponent from "./TreeUiComponent";
-import { FileNode } from "./files";
+import { TreeDataItem, FileNode } from "./files";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -24,7 +24,7 @@ const MonacoEditor = dynamic(() => import("./MonacoEditor"), {
 });
 
 export default function EditorPage() {
-  const [selectedFile, setSelectedFile] = useState<FileNode | null>(null);
+  const [selectedFile, setSelectedFile] = useState<TreeDataItem | null>(null);
 
   return (
     <ResizablePanelGroup
@@ -32,8 +32,13 @@ export default function EditorPage() {
       className="h-screen w-full bg-gray-900 text-white"
     >
       {/* Left Sidebar */}
-      <ResizablePanel maxSize={15}  minSize={15} className="glass border-r">
-        <div className="p-4 space-y-6 overflow-y-auto h-full">
+      <ResizablePanel
+        defaultSize={22}
+        minSize={22}
+        maxSize={30}
+        className="glass border-r"
+      >
+        <div className="p-4 space-y-6 overflow-y-auto h-full ">
           <div>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-semibold flex items-center gap-2">
@@ -77,7 +82,7 @@ export default function EditorPage() {
 
       {/* Code Editor */}
       <ResizablePanel defaultSize={55} minSize={30}>
-        <div className="h-full p-2">
+        <div className="h-full p-2 bg-zinc-950">
           {selectedFile ? (
             <MonacoEditor key={selectedFile.id} file={selectedFile} />
           ) : (
@@ -91,7 +96,7 @@ export default function EditorPage() {
       <ResizableHandle withHandle />
 
       {/* Right Preview Panel */}
-      <ResizablePanel defaultSize={25} minSize={15} className="border-l">
+      <ResizablePanel defaultSize={25} minSize={25} className="border-l">
         <div className="flex flex-col h-full">
           <div className="p-3 border-b glass">
             <div className="flex items-center justify-between">

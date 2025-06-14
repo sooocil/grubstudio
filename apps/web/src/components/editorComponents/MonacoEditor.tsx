@@ -1,15 +1,17 @@
 "use client";
 
 import Editor from "@monaco-editor/react";
-import { FileNode } from "./files";
+import { TreeDataItem, FileNode } from "./files";
 import { useState, useEffect } from "react";
 
 type Props = {
-  file: FileNode;
+  file: TreeDataItem;
 };
 
 export default function MonacoEditor({ file }: Props) {
-  const [value, setValue] = useState(file?.name ? `// Editing: ${file.name}` : "");
+  const [value, setValue] = useState(
+    file?.name ? `// Editing: ${file.name}` : ""
+  );
 
   useEffect(() => {
     setValue(`// Editing: ${file.name}`);
