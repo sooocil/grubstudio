@@ -1,87 +1,112 @@
 "use client";
 
 import { TreeView } from "@/components/tree-view";
-import { FileNode as rawData, TreeDataItem } from "./files";
-import { File as FileIcon, Folder, FolderOpen, Plus, Trash2 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { TreeDataItem, useFileSystemStore } from "@/stores/useFileStore";
+import { PiFileJs as jsfile } from "react-icons/pi";
 
-type Props = {
-  onSelect?: (file: TreeDataItem) => void;
-};
+import {
+  File as FileIcon,
+  Folder,
+  FolderOpen,
+  Plus,
+  Trash2,
+  Image as ImageIcon,
+  FileMusic,
+  FileText,
+} from "lucide-react";
+import { useMemo } from "react";
+import { Skeleton } from "../ui/skeleton";
 
-const ActionButton = ({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) => (
-  <span 
+const ActionButton = ({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+}) => (
+  <span
     className="p-2 text-white hover:cursor-pointer hover:bg-zinc-400/20 hover:rounded"
     onClick={(e) => {
       e.stopPropagation();
       onClick?.();
-      console.log("Action clicked");
     }}
   >
     {children}
   </span>
 );
 
-const NodeIcon = ({ className }: { className?: string }) => (
-  <Folder className={className} />
-);
+export default function TreeUiComponent({
+  onSelect,
+}: {
+  onSelect: (file: TreeDataItem) => void;
+}) {
+  const { files, addFile, deleteFile, isLoading } = useFileSystemStore();
 
-const LeafIcon = ({ className }: { className?: string }) => (
-  <FileIcon className={className} />
-);
-
-export default function TreeUiComponent({ onSelect }: Props) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  if (isLoading) {
+    return (
+      <div className="text-white">
+        <div className="flex items-center space-x-4">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w-[200px]" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const treeData = useMemo(() => {
-    function processNodes(data: TreeDataItem[]): TreeDataItem[] {
-      return data.map((item) => {
-        const newItem: TreeDataItem = { ...item };
+    const buildTree = (parentId: string | null): TreeDataItem[] => {
+      return files
+        .filter((f) => f.parentId === parentId)
+        .map((file) => {
+          const isFolder = files.some((f) => f.parentId === file.id);
 
-        // Set folder icons
-        if (newItem.children) {
-          newItem.openIcon = newItem.openIcon ?? FolderOpen;
-          newItem.icon = newItem.icon ?? Folder;
-          newItem.children = processNodes(newItem.children);
-        }
+          let icon = jsfile;
+          if (file.name.endsWith(".png")) icon = ImageIcon;
+          else if (file.name.endsWith(".mp3")) icon = FileMusic;
+          else if (file.name.endsWith(".js")) icon = jsfile;
+          else if (file.name.endsWith(".txt")) icon = FileText;
+       
 
-        // Always set actions, but control visibility with CSS
-        newItem.actions = (
-          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-            {newItem.children && (
-              <ActionButton>
-                <Plus className="h-4 w-4" />
-              </ActionButton>
-            )}
-            <ActionButton>
-              <Trash2 className="h-4 w-4" />
-            </ActionButton>
-          </div>
-        );
+          return {
+            ...file,
+            icon: isFolder ? Folder : icon,
+            openIcon: isFolder ? FolderOpen : undefined,
+            children: isFolder ? buildTree(file.id) : undefined,
+            actions: (
+              <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                {isFolder ? (
+                  <ActionButton onClick={() => addFile(file.id)}>
+                    <Plus className="h-4 w-4" />
+                  </ActionButton>
+                ) : (
+                  <ActionButton onClick={() => deleteFile(file.id)}>
+                    <Trash2 className="h-4 w-4" />
+                  </ActionButton>
+                )}
+              </div>
+            ),
+            onClick: isFolder ? undefined : () => onSelect(file),
+          };
+        });
+    };
 
-        // Ensure onClick properly handles the item
-        const originalOnClick = newItem.onClick;
-        newItem.onClick = (e?: React.MouseEvent) => {
-          e?.stopPropagation();
-          setSelectedId(newItem.id);
-          onSelect?.(newItem);
-          originalOnClick?.();
-        };
-
-        return newItem;
-      });
-    }
-
-    return processNodes(rawData);
-  }, [selectedId, onSelect]);
+    return buildTree(null);
+  }, [files, addFile, deleteFile, onSelect]);
 
   return (
-    <div className="w-max-20 overflow-auto border-r border-gray-700 bg-gray-900 text-white">
+    <div className="w-full h-full overflow-auto border-r border-gray-700 bg-gray-950 text-white">
       <TreeView
-        data={treeData}
-        defaultNodeIcon={NodeIcon}
-        defaultLeafIcon={LeafIcon}
-        className="[&>div]:group" // This ensures each tree item has the group class
+      data={treeData}
+      defaultNodeIcon={({ className }: { className?: string }) => (
+        <Folder className={className} />
+      )}
+      defaultLeafIcon={({ className }: { className?: string }) => (
+        <FileIcon className={className} />
+      )}
+      className=" select-none "
       />
     </div>
   );

@@ -1,4 +1,4 @@
-import { Image as ImageIcon, FileText, File as FileIcon, Folder, FolderOpen } from 'lucide-react';
+import { Image as ImageIcon, FileText, File as FileIcon, Folder, FolderOpen, FileMusic  } from 'lucide-react';
 
 export interface TreeDataItem {
   id: string;
@@ -31,7 +31,7 @@ export const FileNode: TreeDataItem[] = [
       {
         id: "4",
         name: "Audio.mp3",
-        icon: FileIcon,
+        icon: FileMusic,
       },
     ],
   },
@@ -48,7 +48,7 @@ export const FileNode: TreeDataItem[] = [
       {
         id: "4",
         name: "Audio.mp3",
-        icon: FileIcon,
+        icon: FileMusic,
       },
     ],
   },
