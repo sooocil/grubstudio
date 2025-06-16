@@ -18,7 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
 // Fixed JSON strings to ensure valid syntax and consistent rendering
-export const grubStudioThemeString = `{
+ const grubStudioThemeString = `{
   "titleText": "Welcome to Linux",
   "desktopImage": "background.png",
   "desktopColor": "#1a1a1a",
@@ -33,12 +33,12 @@ export const grubStudioThemeString = `{
   }
 }`;
 
-export const secondDummyCode = `{
+ const secondDummyCode = `{
   "itemHeight": 40,
   "itemSpacing": 8
 }`;
 
-export default function LandingPage() {
+export default function HomePage() {
   const dummyCode = grubStudioThemeString;
   const seconDummyCode = secondDummyCode;
 
